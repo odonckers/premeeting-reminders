@@ -22,7 +22,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: PremeetingReminders    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './build'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.x'                      # set this to the node version to use
+  NODE_VERSION: '12.x'                      # set this to the node version to use
 
 jobs:
   build-and-deploy:
@@ -31,10 +31,12 @@ jobs:
     environment: production
     steps:
     - uses: actions/checkout@v2
+
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
+
     - name: npm install, build, and test
       run: |
         # Build and test the project, then
@@ -42,6 +44,7 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
+
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
